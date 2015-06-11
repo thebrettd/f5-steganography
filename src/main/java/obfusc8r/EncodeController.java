@@ -8,11 +8,11 @@ import java.io.*;
 import java.util.Date;
 
 @Controller
-public class Encoder{
+public class EncodeController {
 
     @RequestMapping(value="/encode", method=RequestMethod.GET)
     public @ResponseBody String provideUploadInfo() {
-        return "You can upload a file by posting to this same URL.";
+        return "You can encode a message into a file by posting to this same URL.";
     }
 
     @RequestMapping(value="/encode", method=RequestMethod.POST)
