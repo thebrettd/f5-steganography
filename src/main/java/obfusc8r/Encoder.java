@@ -10,7 +10,7 @@ import java.util.Date;
 @Controller
 public class Encoder{
 
-    @RequestMapping(value="/upload", method=RequestMethod.GET)
+    @RequestMapping(value="/encode", method=RequestMethod.GET)
     public @ResponseBody String provideUploadInfo() {
         return "You can upload a file by posting to this same URL.";
     }
