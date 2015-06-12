@@ -16,12 +16,12 @@ import java.util.Date;
 public class DecodeController {
 
     @RequestMapping(value="/decode", method=RequestMethod.GET)
-    public @ResponseBody String provideUploadInfo() {
+    public @ResponseBody String provideDecodeInfo() {
         return "You can decode a file by posting to this same URL.";
     }
 
     @RequestMapping(value="/decode", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("encodedFile") MultipartFile file,
+    public @ResponseBody String handleDecodeFileUpload(@RequestParam("encodedFile") MultipartFile file,
                                                  @RequestParam("password") String password)
     {
         if (!file.isEmpty()) {

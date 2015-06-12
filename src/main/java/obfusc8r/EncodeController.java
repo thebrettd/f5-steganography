@@ -11,12 +11,12 @@ import java.util.Date;
 public class EncodeController {
 
     @RequestMapping(value="/encode", method=RequestMethod.GET)
-    public @ResponseBody String provideUploadInfo() {
+    public @ResponseBody String provideEncodeInfo() {
         return "You can encode a message into a file by posting to this same URL.";
     }
 
     @RequestMapping(value="/encode", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("message") String message,
+    public @ResponseBody String handleEncodeFileUpload(@RequestParam("message") String message,
                                                  @RequestParam("file") MultipartFile file,
                                                  @RequestParam("password") String password)
     {
