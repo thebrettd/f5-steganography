@@ -1,5 +1,6 @@
 package obfusc8r;
 
+import net.f5.Embed;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,12 +23,37 @@ public class EncodeController {
     {
         if (!file.isEmpty()) {
             try {
+
+                //Write message to a file.
+                //Todo: just pass a string
+                String hiddenMessage = new Date() + "-hiddenMessage.txt";
+                BufferedOutputStream hiddenStream = new BufferedOutputStream(new FileOutputStream(new File(hiddenMessage)));
+                hiddenStream.write(message.getBytes());
+                hiddenStream.close();
+
+                String[] args = new String[8];
+                args[0] = "-e";
+                args[1] = hiddenMessage;
+                args[2] = "-p";
+                args[3] = password;
+                args[4] = "-q";
+                args[5] = "75";
+
+                //Write uploaded file to disk.
                 byte[] bytes = file.getBytes();
-                String fileName = new Date() + "-encoded.jpg";
+                String fileName = new Date() + "-steganogram.jpg";
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
                 stream.write(bytes);
                 stream.close();
-                return "You successfully encoded "  + message + " into file " + fileName + " with password " + password;
+                args[6] = fileName;
+
+                //Write encoded file to disk..
+                String encodedFileName = System.getProperty("user.dir") + File.separator + new Date() + "-encoded.jpg";
+                args[7] = encodedFileName;
+
+                Embed.embedMain(args);
+
+                return "You successfully encoded "  + message + " into file " + encodedFileName + " with password " + password;
             } catch (Exception e) {
                 return "You failed to encode message " + message + " => " + e.getMessage();
             }

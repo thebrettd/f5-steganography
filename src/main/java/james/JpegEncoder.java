@@ -36,7 +36,7 @@ import net.f5.crypt.Permutation;
  */
 @SuppressWarnings({
         "unused", "serial" })
-public class JpegEncoder extends Frame {
+public class JpegEncoder {
     Thread runner;
 
     BufferedOutputStream outStream;
@@ -68,13 +68,13 @@ public class JpegEncoder extends Frame {
     int n = 0;
 
     public JpegEncoder(final Image image, final int quality, final OutputStream out, final String comment) {
-        final MediaTracker tracker = new MediaTracker(this);
-        tracker.addImage(image, 0);
-        try {
-            tracker.waitForID(0);
-        } catch (final InterruptedException e) {
+        //final MediaTracker tracker = new MediaTracker(this);
+        //tracker.addImage(image, 0);
+        //try {
+        //    tracker.waitForID(0);
+        //} catch (final InterruptedException e) {
             // Got to do something?
-        }
+        //}
         /*
          * Quality of the image. 0 to 100 and from bad image quality, high
          * compression to good image quality low compression
