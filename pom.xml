@@ -35,12 +35,19 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
+			<!-- Support our own plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+				<configuration>
+					<jvmArguments>
+						-Xmx512m
+					</jvmArguments>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
