@@ -13,7 +13,7 @@ import net.f5.image.Bmp;
 
 public class Embed {
 
-    public static void embedMain(final String args[], Integer quality) {
+    public static void embedMain(final String args[], String password, Integer quality) {
         Image image = null;
         FileOutputStream dataOut = null;
         File file, outFile;
@@ -25,7 +25,6 @@ public class Embed {
         boolean haveInputImage = false;
         String messageFileName = null;
         String comment = "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.  ";
-        String password = "abc123";
         String steganogramFileName = null;
         String outFileName = null;
         if (args.length < 1) {
@@ -61,8 +60,6 @@ public class Embed {
             }
             if (args[i].equals("-e")) {
                 messageFileName = args[i + 1];
-            } else if (args[i].equals("-p")) {
-                password = args[i + 1];
             } else if (args[i].equals("-c")) {
                 comment = args[i + 1];
             } else {

@@ -36,11 +36,9 @@ public class EncodeController {
             hiddenStream.write(message.getBytes());
             hiddenStream.close();
 
-            String[] args = new String[6];
+            String[] args = new String[4];
             args[0] = "-e";
             args[1] = hiddenMessage;
-            args[2] = "-p";
-            args[3] = password;
 
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
@@ -48,13 +46,13 @@ public class EncodeController {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
             stream.write(bytes);
             stream.close();
-            args[4] = fileName;
+            args[2] = fileName;
 
             //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-            args[5] = encodedFileName;
+            args[3] = encodedFileName;
 
-            Embed.embedMain(args, 75);
+            Embed.embedMain(args, password, 75);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
