@@ -52,7 +52,7 @@ public class EncodeController {
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
             args[3] = encodedFileName;
 
-            Embed.embedMain(args, password, 75);
+            Embed.embedMain(args, password, 75, hiddenMessage);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);

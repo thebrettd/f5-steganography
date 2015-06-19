@@ -1,11 +1,12 @@
 package net.f5;
 
 import obfusc8r.Utils;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.*;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -22,34 +23,29 @@ public class EmbedTest {
     decodeArgs = {java.lang.String[8]@4038}
      0 = {java.lang.String@4062} "-e"
      1 = {java.lang.String@4036} "150618191023-hiddenMessage.txt"
-     2 = {java.lang.String@4063} "-p"
-     3 = {java.lang.String@4035} "123"
-     4 = {java.lang.String@4064} "-q"
-     5 = {java.lang.String@4066} "75"
      6 = {java.lang.String@4040} "150618191023-steganogram.jpg"
      7 = {java.lang.String@4042} "/Users/brett/obfusc8r/150618191023-encoded.jpg"
 
      */
-        String[] args = new String[4];
-        args[0] = "-e";
-        args[1] = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
+        String[] args = new String[2];
 
-        URL url = this.getClass().getResource("/small.jpg");
-        FileInputStream fileInputStream = new FileInputStream(url.getFile());
-        //Write uploaded file to disk.
-        byte[] bytes = IOUtils.toByteArray(fileInputStream);
+        String messageFilePath = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
+
+        Path path = Paths.get(this.getClass().getResource("/small.jpg").getFile());
+        byte[] bytes = Files.readAllBytes(path);
+
         String fileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
         stream.write(bytes);
         stream.close();
-        args[2] = fileName;
+        args[0] = fileName;
 
         //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-        args[3] = encodedFileName;
+        args[1] = encodedFileName;
 
         String unitTestPassword = "unitTestPassword";
-        Embed.embedMain(args, unitTestPassword, 75);
+        Embed.embedMain(args, unitTestPassword, 75, messageFilePath);
 
         String[] decodeArgs = new String[7];
         decodeArgs[0] = "-e";

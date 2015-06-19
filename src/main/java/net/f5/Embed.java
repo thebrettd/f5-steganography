@@ -13,7 +13,13 @@ import net.f5.image.Bmp;
 
 public class Embed {
 
-    public static void embedMain(final String args[], String password, Integer quality) {
+/*
+0 = {java.lang.String@836} "-e"
+1 = {java.lang.String@837} "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt"
+6 = {java.lang.String@825} "150618210313-steganogram.jpg"
+7 = {java.lang.String@827} "/Users/brett/obfusc8r/150618210313-encoded.jpg"
+*/
+    public static void embedMain(final String args[], String password, Integer quality, String messageFilePath) {
         Image image = null;
         FileOutputStream dataOut = null;
         File file, outFile;
@@ -23,7 +29,6 @@ public class Embed {
         // .tif, .gif, .jpg
         // If not, print the standard use info.
         boolean haveInputImage = false;
-        String messageFileName = null;
         String comment = "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.  ";
         String steganogramFileName = null;
         String outFileName = null;
@@ -32,13 +37,11 @@ public class Embed {
             return;
         }
         for (i = 0; i < args.length; i++) {
+
             if (!args[i].startsWith("-")) {
                 if (!haveInputImage) {
-                    if (!args[i].endsWith(".jpg") && !args[i].endsWith(".tif") && !args[i].endsWith(".gif")
-                            && !args[i].endsWith(".bmp")) {
-                        StandardUsage();
-                        return;
-                    }
+
+                    //Supported input image types: jpg tif gif bmp
                     steganogramFileName = args[i];
                     outFileName = args[i].substring(0, args[i].lastIndexOf(".")) + ".jpg";
                     haveInputImage = true;
@@ -58,9 +61,7 @@ public class Embed {
                 StandardUsage();
                 return;
             }
-            if (args[i].equals("-e")) {
-                messageFileName = args[i + 1];
-            } else if (args[i].equals("-c")) {
+            if (args[i].equals("-c")) {
                 comment = args[i + 1];
             } else {
                 System.out.println("Unknown switch " + args[i] + " ignored.");
@@ -89,10 +90,10 @@ public class Embed {
             }
             jpg = new JpegEncoder(image, quality, dataOut, comment);
             try {
-                if (messageFileName == null) {
+                if (messageFilePath == null) {
                     jpg.Compress();
                 } else {
-                    jpg.Compress(new FileInputStream(messageFileName), password);
+                    jpg.Compress(new FileInputStream(messageFilePath), password);
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
