@@ -13,12 +13,12 @@ import net.f5.image.Bmp;
 
 public class Embed {
 
-    public static void embedMain(final String args[]) {
+    public static void embedMain(final String args[], Integer quality) {
         Image image = null;
         FileOutputStream dataOut = null;
         File file, outFile;
         JpegEncoder jpg;
-        int i, Quality = 80;
+        int i;
         // Check to see if the input file name has one of the extensions:
         // .tif, .gif, .jpg
         // If not, print the standard use info.
@@ -63,13 +63,6 @@ public class Embed {
                 messageFileName = args[i + 1];
             } else if (args[i].equals("-p")) {
                 password = args[i + 1];
-            } else if (args[i].equals("-q")) {
-                try {
-                    Quality = Integer.parseInt(args[i + 1]);
-                } catch (final NumberFormatException e) {
-                    StandardUsage();
-                    return;
-                }
             } else if (args[i].equals("-c")) {
                 comment = args[i + 1];
             } else {
@@ -97,7 +90,7 @@ public class Embed {
             } else {
                 image = Toolkit.getDefaultToolkit().getImage(steganogramFileName);
             }
-            jpg = new JpegEncoder(image, Quality, dataOut, comment);
+            jpg = new JpegEncoder(image, quality, dataOut, comment);
             try {
                 if (messageFileName == null) {
                     jpg.Compress();

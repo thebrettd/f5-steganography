@@ -30,14 +30,12 @@ public class EmbedTest {
      7 = {java.lang.String@4042} "/Users/brett/obfusc8r/150618191023-encoded.jpg"
 
      */
-        String[] args = new String[8];
+        String[] args = new String[6];
         args[0] = "-e";
         args[1] = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
         args[2] = "-p";
         String unitTestPassword = "unitTestPassword";
         args[3] = unitTestPassword;
-        args[4] = "-q";
-        args[5] = "75";
 
         URL url = this.getClass().getResource("/small.jpg");
         FileInputStream fileInputStream = new FileInputStream(url.getFile());
@@ -47,13 +45,13 @@ public class EmbedTest {
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
         stream.write(bytes);
         stream.close();
-        args[6] = fileName;
+        args[4] = fileName;
 
         //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-        args[7] = encodedFileName;
+        args[5] = encodedFileName;
 
-        Embed.embedMain(args);
+        Embed.embedMain(args, 75);
 
         String[] decodeArgs = new String[7];
         decodeArgs[0] = "-e";
