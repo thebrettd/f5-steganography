@@ -19,9 +19,7 @@
 // password switch
 package james;
 
-import java.awt.Frame;
 import java.awt.Image;
-import java.awt.MediaTracker;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +35,6 @@ import net.f5.crypt.Permutation;
 @SuppressWarnings({
         "unused", "serial" })
 public class JpegEncoder {
-    Thread runner;
 
     BufferedOutputStream outStream;
 
@@ -68,13 +65,7 @@ public class JpegEncoder {
     int n = 0;
 
     public JpegEncoder(final Image image, final int quality, final OutputStream out, final String comment) {
-        //final MediaTracker tracker = new MediaTracker(this);
-        //tracker.addImage(image, 0);
-        //try {
-        //    tracker.waitForID(0);
-        //} catch (final InterruptedException e) {
-            // Got to do something?
-        //}
+
         /*
          * Quality of the image. 0 to 100 and from bad image quality, high
          * compression to good image quality low compression
@@ -160,7 +151,6 @@ public class JpegEncoder {
             MinBlockWidth = Math.min(MinBlockWidth, this.JpegObj.BlockWidth[comp]);
             MinBlockHeight = Math.min(MinBlockHeight, this.JpegObj.BlockHeight[comp]);
         }
-        xpos = 0;
         // westfeld
         // Before we enter these loops, we initialise the
         // coeff for steganography here:
@@ -186,8 +176,6 @@ public class JpegEncoder {
                 xpos = c * 8;
                 ypos = r * 8;
                 for (comp = 0; comp < this.JpegObj.NumberOfComponents; comp++) {
-                    Width = this.JpegObj.BlockWidth[comp];
-                    Height = this.JpegObj.BlockHeight[comp];
                     inputArray = (float[][]) this.JpegObj.Components[comp];
 
                     for (i = 0; i < this.JpegObj.VsampFactor[comp]; i++) {
@@ -284,10 +272,6 @@ public class JpegEncoder {
             int usable, changed, n;
             n = (1 << i) - 1;
             usable = _expected * i / n - _expected * i / n % n;
-            changed = coeffCount - _zero - coeffCount / 64;
-            changed = changed * i / n - changed * i / n % n;
-            changed = n * changed / (n + 1) / i;
-            //
             changed = _large - _large % (n + 1);
             changed = (changed + _one + _one / 2 - _one / (n + 1)) / (n + 1);
             usable /= 8;

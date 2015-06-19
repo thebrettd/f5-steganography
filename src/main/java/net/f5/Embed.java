@@ -23,10 +23,10 @@ public class Embed {
         // .tif, .gif, .jpg
         // If not, print the standard use info.
         boolean haveInputImage = false;
-        String embFileName = null;
+        String messageFileName = null;
         String comment = "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.  ";
         String password = "abc123";
-        String inFileName = null;
+        String steganogramFileName = null;
         String outFileName = null;
         if (args.length < 1) {
             StandardUsage();
@@ -40,7 +40,7 @@ public class Embed {
                         StandardUsage();
                         return;
                     }
-                    inFileName = args[i];
+                    steganogramFileName = args[i];
                     outFileName = args[i].substring(0, args[i].lastIndexOf(".")) + ".jpg";
                     haveInputImage = true;
                 } else {
@@ -60,7 +60,7 @@ public class Embed {
                 return;
             }
             if (args[i].equals("-e")) {
-                embFileName = args[i + 1];
+                messageFileName = args[i + 1];
             } else if (args[i].equals("-p")) {
                 password = args[i + 1];
             } else if (args[i].equals("-q")) {
@@ -85,24 +85,24 @@ public class Embed {
                 System.exit(0);
             }
         }
-        file = new File(inFileName);
+        file = new File(steganogramFileName);
         if (file.exists()) {
             try {
                 dataOut = new FileOutputStream(outFile);
             } catch (final IOException e) {
             }
-            if (inFileName.endsWith(".bmp")) {
-                final Bmp bmp = new Bmp(inFileName);
+            if (steganogramFileName.endsWith(".bmp")) {
+                final Bmp bmp = new Bmp(steganogramFileName);
                 image = bmp.getImage();
             } else {
-                image = Toolkit.getDefaultToolkit().getImage(inFileName);
+                image = Toolkit.getDefaultToolkit().getImage(steganogramFileName);
             }
             jpg = new JpegEncoder(image, Quality, dataOut, comment);
             try {
-                if (embFileName == null) {
+                if (messageFileName == null) {
                     jpg.Compress();
                 } else {
-                    jpg.Compress(new FileInputStream(embFileName), password);
+                    jpg.Compress(new FileInputStream(messageFileName), password);
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
@@ -112,7 +112,7 @@ public class Embed {
             } catch (final IOException e) {
             }
         } else {
-            System.out.println("I couldn't find " + inFileName + ". Is it in another directory?");
+            System.out.println("I couldn't find " + steganogramFileName + ". Is it in another directory?");
         }
     }
 
