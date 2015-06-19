@@ -16,8 +16,6 @@ import java.util.Date;
 @Controller
 public class EncodeController {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
-
     @RequestMapping(value = "/encode", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -33,7 +31,7 @@ public class EncodeController {
 
             //Write message to a file.
             //Todo: just pass a string
-            String hiddenMessage = dateFormat.format(new Date()) + "-hiddenMessage.txt";
+            String hiddenMessage = Utils.dateFormat.format(new Date()) + "-hiddenMessage.txt";
             BufferedOutputStream hiddenStream = new BufferedOutputStream(new FileOutputStream(new File(hiddenMessage)));
             hiddenStream.write(message.getBytes());
             hiddenStream.close();
@@ -48,14 +46,14 @@ public class EncodeController {
 
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
-            String fileName = dateFormat.format(new Date()) + "-steganogram.jpg";
+            String fileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
             stream.write(bytes);
             stream.close();
             args[6] = fileName;
 
             //Write encoded file to disk..
-            String encodedFileName = System.getProperty("user.dir") + File.separator + dateFormat.format(new Date()) + "-encoded.jpg";
+            String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
             args[7] = encodedFileName;
 
             Embed.embedMain(args);

@@ -15,7 +15,7 @@ import java.util.Date;
 @Controller
 public class DecodeController {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
+
 
     @RequestMapping(value="/decode", method=RequestMethod.GET)
     public @ResponseBody String provideDecodeInfo() {
@@ -29,7 +29,7 @@ public class DecodeController {
         if (!file.isEmpty()) {
             try {
 
-                String encodedFile = dateFormat.format(new Date()) + "-toDecode.jpg";
+                String encodedFile = Utils.dateFormat.format(new Date()) + "-toDecode.jpg";
                 BufferedOutputStream encodedStream = new BufferedOutputStream(new FileOutputStream(new File(encodedFile)));
                 byte[] bytes = file.getBytes();
                 encodedStream.write(bytes);
@@ -40,7 +40,7 @@ public class DecodeController {
                 args[2] = "-p";
                 args[3] = password;
                 args[4] = "-e";
-                String messageFile = dateFormat.format(new Date()) + "out.txt";
+                String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
                 args[5] = messageFile;
                 args[6] = encodedFile;
 
