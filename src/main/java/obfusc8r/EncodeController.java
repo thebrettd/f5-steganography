@@ -36,9 +36,7 @@ public class EncodeController {
             hiddenStream.write(message.getBytes());
             hiddenStream.close();
 
-            String[] args = new String[4];
-            args[0] = "-e";
-            args[1] = hiddenMessage;
+            String[] args = new String[1];
 
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
@@ -46,11 +44,10 @@ public class EncodeController {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
             stream.write(bytes);
             stream.close();
-            args[2] = steganogramFileName;
 
             //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-            args[3] = encodedFileName;
+            args[0] = encodedFileName;
 
             Embed.embedMain(args, steganogramFileName, password, 75, hiddenMessage);
 
