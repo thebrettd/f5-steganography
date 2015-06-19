@@ -24,7 +24,7 @@ public class EmbedTest {
      7 = {java.lang.String@4042} "/Users/brett/obfusc8r/150618191023-encoded.jpg"
 
      */
-        String[] args = new String[2];
+        String[] args = new String[1];
 
         String messageFilePath = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
 
@@ -34,11 +34,10 @@ public class EmbedTest {
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
         stream.write(bytes);
         stream.close();
-        args[0] = steganogramFileName;
 
         //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-        args[1] = encodedFileName;
+        args[0] = encodedFileName;
 
         String unitTestPassword = "unitTestPassword";
         Embed.embedMain(args, steganogramFileName, unitTestPassword, 75, messageFilePath);
