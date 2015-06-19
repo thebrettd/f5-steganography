@@ -18,11 +18,8 @@ public class EmbedTest {
 
     @Test
     public void testEmbedMain() throws Exception {
-        /*
-
+    /*
     decodeArgs = {java.lang.String[8]@4038}
-     0 = {java.lang.String@4062} "-e"
-     1 = {java.lang.String@4036} "150618191023-hiddenMessage.txt"
      6 = {java.lang.String@4040} "150618191023-steganogram.jpg"
      7 = {java.lang.String@4042} "/Users/brett/obfusc8r/150618191023-encoded.jpg"
 
@@ -33,19 +30,18 @@ public class EmbedTest {
 
         Path path = Paths.get(this.getClass().getResource("/small.jpg").getFile());
         byte[] bytes = Files.readAllBytes(path);
-
-        String fileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+        String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
         stream.write(bytes);
         stream.close();
-        args[0] = fileName;
+        args[0] = steganogramFileName;
 
         //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
         args[1] = encodedFileName;
 
         String unitTestPassword = "unitTestPassword";
-        Embed.embedMain(args, unitTestPassword, 75, messageFilePath);
+        Embed.embedMain(args, steganogramFileName, unitTestPassword, 75, messageFilePath);
 
         String[] decodeArgs = new String[7];
         decodeArgs[0] = "-e";

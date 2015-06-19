@@ -14,12 +14,10 @@ import net.f5.image.Bmp;
 public class Embed {
 
 /*
-0 = {java.lang.String@836} "-e"
-1 = {java.lang.String@837} "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt"
 6 = {java.lang.String@825} "150618210313-steganogram.jpg"
 7 = {java.lang.String@827} "/Users/brett/obfusc8r/150618210313-encoded.jpg"
 */
-    public static void embedMain(final String args[], String password, Integer quality, String messageFilePath) {
+    public static void embedMain(final String args[], String steganogramFileName, String password, Integer quality, String messageFilePath) {
         Image image = null;
         FileOutputStream dataOut = null;
         File file, outFile;
@@ -30,19 +28,13 @@ public class Embed {
         // If not, print the standard use info.
         boolean haveInputImage = false;
         String comment = "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.  ";
-        String steganogramFileName = null;
         String outFileName = null;
-        if (args.length < 1) {
-            StandardUsage();
-            return;
-        }
+
         for (i = 0; i < args.length; i++) {
 
             if (!args[i].startsWith("-")) {
                 if (!haveInputImage) {
-
                     //Supported input image types: jpg tif gif bmp
-                    steganogramFileName = args[i];
                     outFileName = args[i].substring(0, args[i].lastIndexOf(".")) + ".jpg";
                     haveInputImage = true;
                 } else {

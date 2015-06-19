@@ -42,17 +42,17 @@ public class EncodeController {
 
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
-            String fileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+            String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
             stream.write(bytes);
             stream.close();
-            args[2] = fileName;
+            args[2] = steganogramFileName;
 
             //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
             args[3] = encodedFileName;
 
-            Embed.embedMain(args, password, 75, hiddenMessage);
+            Embed.embedMain(args, steganogramFileName, password, 75, hiddenMessage);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
