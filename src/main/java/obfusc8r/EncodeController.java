@@ -61,7 +61,7 @@ public class EncodeController {
             Embed.embedMain(args);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); //or what ever type it is
+            headers.setContentType(MediaType.IMAGE_JPEG);
 
             File encodedFile = new File(encodedFileName);
 
