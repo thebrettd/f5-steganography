@@ -10,7 +10,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -36,7 +35,6 @@ public class EncodeController {
             hiddenStream.write(message.getBytes());
             hiddenStream.close();
 
-            String[] args = new String[1];
 
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
@@ -47,9 +45,8 @@ public class EncodeController {
 
             //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-            args[0] = encodedFileName;
 
-            Embed.embedMain(args, steganogramFileName, password, 75, hiddenMessage);
+            Embed.embed(encodedFileName, steganogramFileName, password, 75, hiddenMessage);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);

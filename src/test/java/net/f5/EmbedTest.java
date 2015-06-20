@@ -18,13 +18,6 @@ public class EmbedTest {
 
     @Test
     public void testEmbedMain() throws Exception {
-    /*
-    decodeArgs = {java.lang.String[8]@4038}
-     6 = {java.lang.String@4040} "150618191023-steganogram.jpg"
-     7 = {java.lang.String@4042} "/Users/brett/obfusc8r/150618191023-encoded.jpg"
-
-     */
-        String[] args = new String[1];
 
         String messageFilePath = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
 
@@ -37,10 +30,9 @@ public class EmbedTest {
 
         //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-        args[0] = encodedFileName;
 
         String unitTestPassword = "unitTestPassword";
-        Embed.embedMain(args, steganogramFileName, unitTestPassword, 75, messageFilePath);
+        Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, messageFilePath);
 
         String[] decodeArgs = new String[7];
         decodeArgs[0] = "-e";
