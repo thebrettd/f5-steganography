@@ -34,17 +34,12 @@ public class EmbedTest {
         String unitTestPassword = "unitTestPassword";
         Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, messageFilePath);
 
-        String[] decodeArgs = new String[7];
+        String[] decodeArgs = new String[3];
         decodeArgs[0] = "-e";
-        decodeArgs[1] = encodedFileName;
-        decodeArgs[2] = "-p";
-        decodeArgs[3] = unitTestPassword;
-        decodeArgs[4] = "-e";
         String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
-        decodeArgs[5] = messageFile;
-        decodeArgs[6] = encodedFileName;
-
-        Extract.extractMain(decodeArgs);
+        decodeArgs[1] = messageFile;
+        decodeArgs[2] = encodedFileName;
+        Extract.extractMain(decodeArgs, unitTestPassword);
 
         StringBuilder messageBuilder = new StringBuilder();
         FileReader fr = new FileReader(messageFile);

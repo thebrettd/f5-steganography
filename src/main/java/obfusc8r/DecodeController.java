@@ -34,17 +34,13 @@ public class DecodeController {
                 byte[] bytes = file.getBytes();
                 encodedStream.write(bytes);
 
-                String[] args = new String[7];
+                String[] args = new String[3];
                 args[0] = "-e";
-                args[1] = encodedFile;
-                args[2] = "-p";
-                args[3] = password;
-                args[4] = "-e";
                 String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
-                args[5] = messageFile;
-                args[6] = encodedFile;
+                args[1] = messageFile;
+                args[2] = encodedFile;
 
-                Extract.extractMain(args);
+                Extract.extractMain(args, password);
 
                 StringBuilder messageBuilder = new StringBuilder();
 

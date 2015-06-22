@@ -13,7 +13,7 @@ import net.f5.ortega.HuffmanDecode;
 
 
 public class Extract {
-    private static File f; // carrier file
+    private static File encodedFile; // carrier file
 
     private static byte[] carrier; // carrier data
 
@@ -23,12 +23,10 @@ public class Extract {
 
     private static String embFileName; // output file name
 
-    private static String password;
-
     private static byte[] deZigZag = {
             0, 1, 5, 6, 14, 15, 27, 28, 2, 4, 7, 13, 16, 26, 29, 42, 3, 8, 12, 17, 25, 30, 41, 43, 9, 11, 18, 24, 31,
             40, 44, 53, 10, 19, 23, 32, 39, 45, 52, 54, 20, 22, 33, 38, 46, 51, 55, 60, 21, 34, 37, 47, 50, 56, 59, 61,
-            35, 36, 48, 49, 57, 58, 62, 63 };
+            35, 36, 48, 49, 57, 58, 62, 63};
 
     public static void extract(final InputStream fis, final int flength, final OutputStream fos, final String password)
             throws IOException {
@@ -49,6 +47,7 @@ public class Extract {
         int extractedBit;
         int i;
         System.out.println("Extraction starts");
+
         // extract length information
         for (i = 0; availableExtractedBits < 32; i++) {
             shuffledIndex = permutation.getShuffled(i);
@@ -81,7 +80,8 @@ public class Extract {
             int startOfN = i;
             int hash;
             System.out.println("(1, " + n + ", " + k + ") code used");
-            extractingLoop: do {
+            extractingLoop:
+            do {
                 // 1. read n places, and calculate k bits
                 hash = 0;
                 int code = 1;
@@ -161,10 +161,17 @@ public class Extract {
                     + " bytes extracted");
         }
     }
-
-    public static void extractMain(final String[] args) {
+/*
+    0 = {java.lang.String@1078} "-e"
+            1 = {java.lang.String@1073} "/Users/brett/obfusc8r/150621083742-encoded.jpg"
+            2 = {java.lang.String@1079} "-p"
+            3 = {java.lang.String@1074} "unitTestPassword"
+            4 = {java.lang.String@1078} "-e"
+            5 = {java.lang.String@1076} "150621083804out.txt"
+            6 = {java.lang.String@1073} "/Users/brett/obfusc8r/150621083742-encoded.jpg"
+            */
+    public static void extractMain(final String[] args, String password) {
         embFileName = "output.txt";
-        password = "abc123";
         try {
             if (args.length < 1) {
                 usage();
@@ -176,7 +183,7 @@ public class Extract {
                         usage();
                         return;
                     }
-                    f = new File(args[i]);
+                    encodedFile = new File(args[i]);
                     continue;
                 }
                 if (args.length < i + 1) {
@@ -194,9 +201,9 @@ public class Extract {
                 i++;
             }
 
-            final FileInputStream fis = new FileInputStream(f);
+            final FileInputStream fis = new FileInputStream(encodedFile);
             fos = new FileOutputStream(new File(embFileName));
-            extract(fis, (int) f.length(), fos, password);
+            extract(fis, (int) encodedFile.length(), fos, password);
 
         } catch (final Exception e) {
             e.printStackTrace();
