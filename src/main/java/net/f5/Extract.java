@@ -13,20 +13,10 @@ import net.f5.ortega.HuffmanDecode;
 
 
 public class Extract {
-    private static File encodedFile; // carrier file
 
     private static byte[] carrier; // carrier data
 
     private static int[] coeff; // dct values
-
-    private static FileOutputStream fos; // embedded file (output file)
-
-    private static String embFileName; // output file name
-
-    private static byte[] deZigZag = {
-            0, 1, 5, 6, 14, 15, 27, 28, 2, 4, 7, 13, 16, 26, 29, 42, 3, 8, 12, 17, 25, 30, 41, 43, 9, 11, 18, 24, 31,
-            40, 44, 53, 10, 19, 23, 32, 39, 45, 52, 54, 20, 22, 33, 38, 46, 51, 55, 60, 21, 34, 37, 47, 50, 56, 59, 61,
-            35, 36, 48, 49, 57, 58, 62, 63};
 
     public static void extract(final InputStream fis, final int flength, final OutputStream fos, final String password)
             throws IOException {
@@ -54,7 +44,7 @@ public class Extract {
             if (shuffledIndex % 64 == 0) {
                 continue; // skip DC coefficients
             }
-            shuffledIndex = shuffledIndex - shuffledIndex % 64 + deZigZag[shuffledIndex % 64];
+            shuffledIndex = shuffledIndex - shuffledIndex % 64 + HuffmanDecode.deZigZag[shuffledIndex % 64];
             if (coeff[shuffledIndex] == 0) {
                 continue; // skip zeroes
             }
@@ -94,7 +84,7 @@ public class Extract {
                     if (shuffledIndex % 64 == 0) {
                         continue; // skip DC coefficients
                     }
-                    shuffledIndex = shuffledIndex - shuffledIndex % 64 + deZigZag[shuffledIndex % 64];
+                    shuffledIndex = shuffledIndex - shuffledIndex % 64 + HuffmanDecode.deZigZag[shuffledIndex % 64];
                     if (coeff[shuffledIndex] == 0) {
                         continue; // skip zeroes
                     }
@@ -133,7 +123,7 @@ public class Extract {
                 if (shuffledIndex % 64 == 0) {
                     continue; // skip DC coefficients
                 }
-                shuffledIndex = shuffledIndex - shuffledIndex % 64 + deZigZag[shuffledIndex % 64];
+                shuffledIndex = shuffledIndex - shuffledIndex % 64 + HuffmanDecode.deZigZag[shuffledIndex % 64];
                 if (coeff[shuffledIndex] == 0) {
                     continue; // skip zeroes
                 }
@@ -161,48 +151,12 @@ public class Extract {
                     + " bytes extracted");
         }
     }
-/*
-    0 = {java.lang.String@1078} "-e"
-            1 = {java.lang.String@1073} "/Users/brett/obfusc8r/150621083742-encoded.jpg"
-            2 = {java.lang.String@1079} "-p"
-            3 = {java.lang.String@1074} "unitTestPassword"
-            4 = {java.lang.String@1078} "-e"
-            5 = {java.lang.String@1076} "150621083804out.txt"
-            6 = {java.lang.String@1073} "/Users/brett/obfusc8r/150621083742-encoded.jpg"
-            */
-    public static void extractMain(final String[] args, String password) {
-        embFileName = "output.txt";
-        try {
-            if (args.length < 1) {
-                usage();
-                return;
-            }
-            for (int i = 0; i < args.length; i++) {
-                if (!args[i].startsWith("-")) {
-                    if (!args[i].endsWith(".jpg")) {
-                        usage();
-                        return;
-                    }
-                    encodedFile = new File(args[i]);
-                    continue;
-                }
-                if (args.length < i + 1) {
-                    System.out.println("Missing parameter for switch " + args[i]);
-                    usage();
-                    return;
-                }
-                if (args[i].equals("-e")) {
-                    embFileName = args[i + 1];
-                } else if (args[i].equals("-p")) {
-                    password = args[i + 1];
-                } else {
-                    System.out.println("Unknown switch " + args[i] + " ignored.");
-                }
-                i++;
-            }
 
+    public static void extract(String password, String decodedMessageFilename, String encodedFilePath) {
+        try {
+            File encodedFile = new File(encodedFilePath);
             final FileInputStream fis = new FileInputStream(encodedFile);
-            fos = new FileOutputStream(new File(embFileName));
+            FileOutputStream fos = new FileOutputStream(new File(decodedMessageFilename));
             extract(fis, (int) encodedFile.length(), fos, password);
 
         } catch (final Exception e) {
@@ -210,11 +164,4 @@ public class Extract {
         }
     }
 
-    static void usage() {
-        System.out.println("java Extract [Options] \"image.jpg\"");
-        System.out.println("Options:");
-        System.out.println("\t-p password (default: abc123)");
-        System.out.println("\t-e extractedFileName (default: output.txt)");
-        System.out.println("\nAuthor: Andreas Westfeld, westfeld@inf.tu-dresden.de");
-    }
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -34,13 +33,9 @@ public class DecodeController {
                 byte[] bytes = file.getBytes();
                 encodedStream.write(bytes);
 
-                String[] args = new String[3];
-                args[0] = "-e";
                 String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
-                args[1] = messageFile;
-                args[2] = encodedFile;
 
-                Extract.extractMain(args, password);
+                Extract.extract(password, messageFile, encodedFile);
 
                 StringBuilder messageBuilder = new StringBuilder();
 
