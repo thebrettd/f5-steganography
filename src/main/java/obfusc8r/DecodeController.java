@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.Date;
 
 @Controller
 public class DecodeController {
-
-
 
     @RequestMapping(value="/decode", method=RequestMethod.GET)
     public @ResponseBody String provideDecodeInfo() {
@@ -27,35 +24,14 @@ public class DecodeController {
     {
         if (!file.isEmpty()) {
             try {
-
-                String encodedFile = Utils.dateFormat.format(new Date()) + "-toDecode.jpg";
-                BufferedOutputStream encodedStream = new BufferedOutputStream(new FileOutputStream(new File(encodedFile)));
-                byte[] bytes = file.getBytes();
-                encodedStream.write(bytes);
-
-                String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
-
+                ByteArrayOutputStream baos = null;
                 try {
-                    File encodedFile1 = new File(encodedFile);
-                    final FileInputStream fis = new FileInputStream(encodedFile1);
-                    FileOutputStream fos = new FileOutputStream(new File(messageFile));
-                    Extract.extract(fis, (int) encodedFile1.length(), fos, password);
-
+                    baos = new ByteArrayOutputStream();
+                    Extract.extract(file.getInputStream(), file.getBytes().length, baos, password);
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }
-
-                StringBuilder messageBuilder = new StringBuilder();
-
-                FileReader fr = new FileReader(messageFile);
-                BufferedReader br = new BufferedReader(fr);
-                String s;
-                while((s = br.readLine()) != null) {
-                    messageBuilder.append(s);
-                }
-                fr.close();
-
-                return "Decoded message: " + messageBuilder.toString();
+                return "Decoded message: " + baos.toString();
             } catch (Exception e) {
                 return "You failed to decode message from Steganogram => " + e.getMessage();
             }
