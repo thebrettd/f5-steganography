@@ -36,7 +36,15 @@ public class EmbedTest {
 
         String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
 
-        Extract.extract(unitTestPassword, messageFile, encodedFileName);
+        try {
+            File encodedFile = new File(encodedFileName);
+            final FileInputStream fis = new FileInputStream(encodedFile);
+            FileOutputStream fos = new FileOutputStream(new File(messageFile));
+            Extract.extract(fis, (int) encodedFile.length(), fos, unitTestPassword);
+
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
 
         StringBuilder messageBuilder = new StringBuilder();
         FileReader fr = new FileReader(messageFile);

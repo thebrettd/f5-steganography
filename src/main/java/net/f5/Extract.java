@@ -152,16 +152,4 @@ public class Extract {
         }
     }
 
-    public static void extract(String password, String decodedMessageFilename, String encodedFilePath) {
-        try {
-            File encodedFile = new File(encodedFilePath);
-            final FileInputStream fis = new FileInputStream(encodedFile);
-            FileOutputStream fos = new FileOutputStream(new File(decodedMessageFilename));
-            extract(fis, (int) encodedFile.length(), fos, password);
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

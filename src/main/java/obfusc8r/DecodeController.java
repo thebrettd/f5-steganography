@@ -35,7 +35,15 @@ public class DecodeController {
 
                 String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
 
-                Extract.extract(password, messageFile, encodedFile);
+                try {
+                    File encodedFile1 = new File(encodedFile);
+                    final FileInputStream fis = new FileInputStream(encodedFile1);
+                    FileOutputStream fos = new FileOutputStream(new File(messageFile));
+                    Extract.extract(fis, (int) encodedFile1.length(), fos, password);
+
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
 
                 StringBuilder messageBuilder = new StringBuilder();
 
