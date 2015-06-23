@@ -11,17 +11,13 @@ import net.f5.ortega.HuffmanDecode;
 
 public class Extract {
 
-    private static byte[] carrier; // carrier data
-
-    private static int[] coeff; // dct values
-
     public static void extract(final InputStream fis, final int flength, final OutputStream fos, final String password)
             throws IOException {
-        carrier = new byte[flength];
+        byte[] carrier = new byte[flength];
         fis.read(carrier);
         final HuffmanDecode hd = new HuffmanDecode(carrier);
         System.out.println("Huffman decoding starts");
-        coeff = hd.decode();
+        int[] coeff = hd.decode();
         System.out.println("Permutation starts");
         final F5Random random = new F5Random(password.getBytes());
         final Permutation permutation = new Permutation(coeff.length, random);
