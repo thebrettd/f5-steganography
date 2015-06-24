@@ -1,0 +1,1 @@
+java -jar obfusc8r-0.0.1-SNAPSHOT.jar
