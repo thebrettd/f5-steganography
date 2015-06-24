@@ -28,17 +28,9 @@ public class EncodeController {
                                                      @RequestParam("password") String password) throws IOException {
         if (!file.isEmpty()) {
 
-            //Write uploaded file to disk.
-            byte[] bytes = file.getBytes();
-            String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
-            stream.write(bytes);
-            stream.close();
-
-            //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
 
-            Embed.embed(encodedFileName, steganogramFileName, password, 75, new ByteArrayInputStream(message.getBytes()));
+            Embed.embed(encodedFileName, file.getName(), new BufferedInputStream(new ByteArrayInputStream(file.getBytes())), password, 75, new ByteArrayInputStream(message.getBytes()));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);

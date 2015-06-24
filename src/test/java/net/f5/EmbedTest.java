@@ -22,15 +22,11 @@ public class EmbedTest {
         Path path = Paths.get(this.getClass().getResource("/small.jpg").getFile());
         byte[] bytes = Files.readAllBytes(path);
         String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(steganogramFileName)));
-        stream.write(bytes);
-        stream.close();
 
-        //Write encoded file to disk..
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
 
         String unitTestPassword = "unitTestPassword";
-        Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, new ByteArrayInputStream("my test message".getBytes()));
+        Embed.embed(encodedFileName, steganogramFileName, new BufferedInputStream(new ByteArrayInputStream(bytes)), unitTestPassword, 75, new ByteArrayInputStream("my test message".getBytes()));
 
         ByteArrayOutputStream outputStream = null;
         try {

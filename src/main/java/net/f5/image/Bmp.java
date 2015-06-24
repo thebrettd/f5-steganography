@@ -40,9 +40,9 @@ public class Bmp {
 
     int biClrImportant;
 
-    public Bmp(final String fileName) {
+    public Bmp(final BufferedInputStream fileStream) {
         try {
-            this.imageFile = new BufferedInputStream(new FileInputStream(fileName));
+            this.imageFile = fileStream;
             readBitmapFileHeader();
             readBitmapInfoHeader();
             this.pixel = new int[this.biWidth * this.biHeight];
@@ -61,7 +61,7 @@ public class Bmp {
                 }
             }
         } catch (final Exception e) {
-            System.out.println(fileName + " is not a true colour file.");
+            System.out.println("Could not process true colour file from stream.");
             System.exit(1);
         }
     }

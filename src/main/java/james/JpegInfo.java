@@ -14,10 +14,9 @@
 
 package james;
 
-import sun.awt.image.ToolkitImage;
-
 import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 
 /**
@@ -91,8 +90,8 @@ class JpegInfo {
         this.BlockWidth = new int[this.NumberOfComponents];
         this.BlockHeight = new int[this.NumberOfComponents];
         this.imageobj = image;
-        this.imageWidth = ((ToolkitImage) image).getWidth();
-        this.imageHeight = ((ToolkitImage) image).getHeight();
+        this.imageWidth = ((BufferedImage) image).getWidth();
+        this.imageHeight = ((BufferedImage) image).getHeight();
         // Comment =
         // "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.  ";
         this.Comment = comment;
