@@ -32,29 +32,17 @@ public class EmbedTest {
         String unitTestPassword = "unitTestPassword";
         Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, new ByteArrayInputStream("my test message".getBytes()));
 
-        String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
-
+        ByteArrayOutputStream outputStream = null;
         try {
             File encodedFile = new File(encodedFileName);
             final FileInputStream fis = new FileInputStream(encodedFile);
-            FileOutputStream fos = new FileOutputStream(new File(messageFile));
-            Extract.extract(fis, (int) encodedFile.length(), fos, unitTestPassword);
+            outputStream = new ByteArrayOutputStream();
+            Extract.extract(fis, (int) encodedFile.length(), outputStream, unitTestPassword);
 
         } catch (final Exception e) {
             e.printStackTrace();
         }
 
-        StringBuilder messageBuilder = new StringBuilder();
-        FileReader fr = new FileReader(messageFile);
-        BufferedReader br = new BufferedReader(fr);
-        String s;
-        while((s = br.readLine()) != null) {
-            messageBuilder.append(s);
-        }
-        fr.close();
-
-        assertTrue(messageBuilder.toString().equals("my test message"));
-
-
+        assertTrue(outputStream.toString().equals("my test message"));
     }
 }
