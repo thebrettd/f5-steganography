@@ -28,14 +28,6 @@ public class EncodeController {
                                                      @RequestParam("password") String password) throws IOException {
         if (!file.isEmpty()) {
 
-            //Write message to a file.
-            //Todo: just pass a string
-            String hiddenMessage = Utils.dateFormat.format(new Date()) + "-hiddenMessage.txt";
-            BufferedOutputStream hiddenStream = new BufferedOutputStream(new FileOutputStream(new File(hiddenMessage)));
-            hiddenStream.write(message.getBytes());
-            hiddenStream.close();
-
-
             //Write uploaded file to disk.
             byte[] bytes = file.getBytes();
             String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
@@ -46,7 +38,7 @@ public class EncodeController {
             //Write encoded file to disk..
             String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
 
-            Embed.embed(encodedFileName, steganogramFileName, password, 75, hiddenMessage);
+            Embed.embed(encodedFileName, steganogramFileName, password, 75, new ByteArrayInputStream(message.getBytes()));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);

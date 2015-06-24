@@ -85,10 +85,10 @@ public class JpegEncoder {
         this.Huf = new Huffman(this.imageWidth, this.imageHeight);
     }
 
-    public void Compress() {
-        WriteHeaders(this.outStream);
-        WriteCompressedData(this.outStream);
-        WriteEOI(this.outStream);
+    public void compress() {
+        writeHeaders(this.outStream);
+        writeCompressedData(this.outStream);
+        writeEOI(this.outStream);
         try {
             this.outStream.flush();
         } catch (final IOException e) {
@@ -96,10 +96,10 @@ public class JpegEncoder {
         }
     }
 
-    public void Compress(final InputStream embeddedData, final String password) {
+    public void compress(final InputStream embeddedData, final String password) {
         this.embeddedData = embeddedData;
         this.password = password;
-        Compress();
+        compress();
     }
 
     public int getQuality() {
@@ -121,7 +121,7 @@ public class JpegEncoder {
         }
     }
 
-    public void WriteCompressedData(final BufferedOutputStream outStream) {
+    public void writeCompressedData(final BufferedOutputStream outStream) {
         final int offset;
         int i, j, r, c, a, b;
         final int temp = 0;
@@ -552,13 +552,13 @@ public class JpegEncoder {
         this.Huf.flushBuffer(outStream);
     }
 
-    public void WriteEOI(final BufferedOutputStream out) {
+    public void writeEOI(final BufferedOutputStream out) {
         final byte[] EOI = {
                 (byte) 0xFF, (byte) 0xD9 };
         WriteMarker(EOI, out);
     }
 
-    public void WriteHeaders(final BufferedOutputStream out) {
+    public void writeHeaders(final BufferedOutputStream out) {
         int i, j, index, offset, length;
         int tempArray[];
 

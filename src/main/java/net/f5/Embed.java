@@ -10,7 +10,7 @@ import net.f5.image.Bmp;
 
 public class Embed {
 
-    public static void embed(String outFilePath, String steganogramFileName, String password, Integer quality, String messageFilePath) throws FileNotFoundException {
+    public static void embed(String outFilePath, String steganogramFileName, String password, Integer quality, InputStream messageStream) throws FileNotFoundException {
 
         Image image;
         if (steganogramFileName.endsWith(".bmp")) {
@@ -31,7 +31,7 @@ public class Embed {
         }
 
         jpg = new JpegEncoder(image, quality, dataOut, comment);
-        jpg.Compress(new FileInputStream(messageFilePath), password);
+        jpg.compress(messageStream, password);
 
         try {
             dataOut.close();

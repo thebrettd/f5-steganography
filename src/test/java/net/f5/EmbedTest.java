@@ -19,8 +19,6 @@ public class EmbedTest {
     @Test
     public void testEmbedMain() throws Exception {
 
-        String messageFilePath = "/Users/brett/obfusc8r/src/test/resources/unitTestMessage.txt";
-
         Path path = Paths.get(this.getClass().getResource("/small.jpg").getFile());
         byte[] bytes = Files.readAllBytes(path);
         String steganogramFileName = Utils.dateFormat.format(new Date()) + "-steganogram.jpg";
@@ -32,7 +30,7 @@ public class EmbedTest {
         String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
 
         String unitTestPassword = "unitTestPassword";
-        Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, messageFilePath);
+        Embed.embed(encodedFileName, steganogramFileName, unitTestPassword, 75, new ByteArrayInputStream("my test message".getBytes()));
 
         String messageFile = Utils.dateFormat.format(new Date()) + "out.txt";
 
