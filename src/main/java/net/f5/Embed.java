@@ -11,24 +11,13 @@ import javax.imageio.ImageIO;
 
 public class Embed {
 
-    public static void embed(String encodedFileName, String steganogramFileName, BufferedInputStream steganogramFileStream, String password, Integer quality, InputStream messageStream) throws IOException {
+    public static ByteArrayOutputStream embed(String steganogramFileName, BufferedInputStream steganogramFileStream, String password, Integer quality, InputStream messageStream) throws IOException {
 
-        FileOutputStream dataOut = null;
-        File outFile = new File(encodedFileName);
-        try {
-            dataOut = new FileOutputStream(outFile);
-        } catch (final IOException e) {
-        }
-
-        Image image;
-        if (steganogramFileName.endsWith(".bmp")) {
-            final Bmp bmp = new Bmp(steganogramFileStream);
-            image = bmp.getImage();
-        } else {
-            image = ImageIO.read(steganogramFileStream);
-        }
+        Image image = getImageFromInput(steganogramFileName, steganogramFileStream);
 
         String comment = "JPEG Encoder Copyright 1998, James R. Weeks and BioElectroMech.";
+
+        ByteArrayOutputStream dataOut = new ByteArrayOutputStream();
         JpegEncoder jpg = new JpegEncoder(image, quality, dataOut, comment);
         jpg.compress(messageStream, password);
 
@@ -36,7 +25,18 @@ public class Embed {
             dataOut.close();
         } catch (final IOException e) {
         }
+        return dataOut;
+    }
 
+    private static Image getImageFromInput(String steganogramFileName, BufferedInputStream steganogramFileStream) throws IOException {
+        Image image;
+        if (steganogramFileName.endsWith(".bmp")) {
+            final Bmp bmp = new Bmp(steganogramFileStream);
+            image = bmp.getImage();
+        } else {
+            image = ImageIO.read(steganogramFileStream);
+        }
+        return image;
     }
 
 }

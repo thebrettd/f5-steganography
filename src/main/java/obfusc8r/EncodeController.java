@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
 
 @Controller
 public class EncodeController {
@@ -28,18 +24,15 @@ public class EncodeController {
                                                      @RequestParam("password") String password) throws IOException {
         if (!file.isEmpty()) {
 
-            String encodedFileName = System.getProperty("user.dir") + File.separator + Utils.dateFormat.format(new Date()) + "-encoded.jpg";
-
-            Embed.embed(encodedFileName, file.getName(), new BufferedInputStream(new ByteArrayInputStream(file.getBytes())), password, 75, new ByteArrayInputStream(message.getBytes()));
+            ByteArrayOutputStream embeddedStream = Embed.embed(file.getName(), new BufferedInputStream(new ByteArrayInputStream(file.getBytes())), password, 75, new ByteArrayInputStream(message.getBytes()));
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
 
-            File encodedFile = new File(encodedFileName);
+            byte[] bytes = embeddedStream.toByteArray();
+            headers.setContentLength(bytes.length);
 
-            headers.setContentLength(encodedFile.length());
-            Path path = Paths.get(encodedFileName);
-            return new HttpEntity<>(Files.readAllBytes(path), headers);
+            return new HttpEntity<>(bytes, headers);
 
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
