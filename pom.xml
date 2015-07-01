@@ -52,7 +52,7 @@
 				<version>${spring-boot.version}</version>
 				<configuration>
 					<jvmArguments>
-						-Xmx512m
+						-XX:+UseParallelGC
 					</jvmArguments>
 				</configuration>
 			</plugin>
